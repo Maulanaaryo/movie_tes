@@ -1,10 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_tes/data/models/movie_model.dart';
 import 'package:movie_tes/presentation/bloc/now_playing/now_playing_bloc.dart';
 import 'package:movie_tes/presentation/bloc/popular/popular_bloc.dart';
-import 'package:movie_tes/utils/constants.dart';
+import 'package:movie_tes/presentation/bloc/top_rated/top_rated_bloc.dart';
+
+import '../widgets/widget_movie_home.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,90 +19,93 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     context.read<NowPlayingBloc>().add(GetNowPlayingEvent());
     context.read<PopularBloc>().add(GetPopularEvent());
+    context.read<TopRatedBloc>().add(GetTopRatedEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: [
-          Column(
-            children: [
-              Text('Now Playing Movie'),
-              BlocBuilder<NowPlayingBloc, NowPlayingState>(
-                builder: (context, state) {
-                  if (state is NowPlayingLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is NowPlayingLoaded) {
-                    final result = state.movie;
-                    return MovieList(result);
-                  } else {
-                    return const Text('Error Nich');
-                  }
-                },
-              ),
-              const SizedBox(
-                height: 30.0,
-              ),
-              Text('Popular Movie'),
-              BlocBuilder<PopularBloc, PopularState>(
-                builder: (context, state) {
-                  if (state is PopularLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is PopularLoaded) {
-                    final result = state.movie;
-                    return MovieList(result);
-                  } else {
-                    return const Text('Error Nich');
-                  }
-                },
-              ),
-            ],
-          )
-        ],
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        toolbarHeight: 0,
+        elevation: 0,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarIconBrightness: Brightness.dark),
       ),
-    );
-  }
-}
-
-class MovieList extends StatelessWidget {
-  final List<MovieModel> movies;
-
-  const MovieList(this.movies, {Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 200,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          final movie = movies[index];
-          return Container(
-            padding: const EdgeInsets.all(8),
-            child: InkWell(
-              onTap: () {},
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(16)),
-                child: CachedNetworkImage(
-                  imageUrl: '$baseImageUrl${movie.posterPath}',
-                  placeholder: (context, url) => const Center(
-                    child: CircularProgressIndicator(),
+      body: SafeArea(
+        child: ListView(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(left: 10, top: 20),
+                  child: const Text(
+                    'Now Playing Movie',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
-                  errorWidget: (context, url, error) {
-                    return const Icon(Icons.error);
+                ),
+                BlocBuilder<NowPlayingBloc, NowPlayingState>(
+                  builder: (context, state) {
+                    if (state is NowPlayingLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state is NowPlayingLoaded) {
+                      final result = state.movie;
+                      return MovieList(result);
+                    } else {
+                      return const Text('Error Nich');
+                    }
                   },
                 ),
-              ),
-            ),
-          );
-        },
-        itemCount: movies.length,
+                Container(
+                  margin: const EdgeInsets.only(left: 10, top: 20),
+                  child: const Text(
+                    'Popular Movie',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                BlocBuilder<PopularBloc, PopularState>(
+                  builder: (context, state) {
+                    if (state is PopularLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state is PopularLoaded) {
+                      final result = state.movie;
+                      return MovieList(result);
+                    } else {
+                      return const Text('Error Nich');
+                    }
+                  },
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 10, top: 20),
+                  child: const Text(
+                    'Top Rated Movie',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                BlocBuilder<TopRatedBloc, TopRatedState>(
+                  builder: (context, state) {
+                    if (state is TopRatedLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state is TopRatedLoaded) {
+                      final result = state.movie;
+                      return MovieList(result);
+                    } else {
+                      return const Text('Error Nich');
+                    }
+                  },
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

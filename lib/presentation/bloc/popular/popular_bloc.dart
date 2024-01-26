@@ -10,16 +10,12 @@ class PopularBloc extends Bloc<PopularEvent, PopularState> {
   PopularBloc() : super(PopularInitial()) {
     on<GetPopularEvent>((event, emit) async {
       emit(PopularLoading());
-      try {
-        final result = await HomeDataSource().getPopular();
-        result.fold((error) {
-          emit(PopularError(message: error));
-        }, (List<MovieModel> success) {
-          emit(PopularLoaded(movie: success));
-        });
-      } catch (e) {
-        emit(const PopularError(message: 'An unexpected error occurred.'));
-      }
+
+      final result = await HomeDataSource().getPopular();
+      result.fold(
+        (error) => emit(PopularError(message: error)),
+        (success) => emit(PopularLoaded(movie: success)),
+      );
     });
   }
 }

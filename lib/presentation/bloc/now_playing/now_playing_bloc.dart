@@ -10,19 +10,12 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
   NowPlayingBloc() : super(NowPlayingInitial()) {
     on<GetNowPlayingEvent>((event, emit) async {
       emit(NowPlayingLoading());
-      try {
-        final result = await HomeDataSource().getNowPlaying();
-        result.fold(
-          (error) {
-            emit(NowPlayingError(message: error.toString()));
-          },
-          (List<MovieModel> success) {
-            emit(NowPlayingLoaded(movie: success));
-          },
-        );
-      } catch (e) {
-        emit(const NowPlayingError(message: 'An unexpected error occurred.'));
-      }
+
+      final result = await HomeDataSource().getNowPlaying();
+      result.fold(
+        (error) => emit(NowPlayingError(message: error.toString())),
+        (success) => emit(NowPlayingLoaded(movie: success)),
+      );
     });
   }
 }

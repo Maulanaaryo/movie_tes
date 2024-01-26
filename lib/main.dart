@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_tes/presentation/bloc/now_playing/now_playing_bloc.dart';
 import 'package:movie_tes/presentation/bloc/popular/popular_bloc.dart';
+import 'package:movie_tes/presentation/bloc/top_rated/top_rated_bloc.dart';
 import 'package:movie_tes/presentation/pages/splash.dart';
 
 void main() {
@@ -20,7 +21,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<PopularBloc>(
           create: (context) => PopularBloc(),
-        )
+        ),
+        BlocProvider<TopRatedBloc>(
+          create: (context) => TopRatedBloc(),
+        ),
       ],
       child: const MaterialApp(
         title: 'Movie & Tv',
