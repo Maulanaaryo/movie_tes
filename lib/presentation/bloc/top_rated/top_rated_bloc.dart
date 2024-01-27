@@ -11,7 +11,7 @@ class TopRatedBloc extends Bloc<TopRatedEvent, TopRatedState> {
     on<GetTopRatedEvent>((event, emit) async {
       emit(TopRatedLoading());
 
-      final result = await HomeDataSource().getTopRated();
+      final result = await MovieDataSource().getTopRated();
       result.fold(
         (error) => emit(TopRatedError(message: error)),
         (success) => emit(TopRatedLoaded(movie: success)),

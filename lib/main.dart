@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:movie_tes/presentation/bloc/detail/detail_bloc.dart';
 import 'package:movie_tes/presentation/bloc/now_playing/now_playing_bloc.dart';
 import 'package:movie_tes/presentation/bloc/popular/popular_bloc.dart';
 import 'package:movie_tes/presentation/bloc/top_rated/top_rated_bloc.dart';
@@ -25,11 +27,17 @@ class MyApp extends StatelessWidget {
         BlocProvider<TopRatedBloc>(
           create: (context) => TopRatedBloc(),
         ),
+        BlocProvider<DetailBloc>(
+          create: (context) => DetailBloc(),
+        ),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
+        theme: ThemeData(
+            textTheme:
+                GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)),
         title: 'Movie & Tv',
         debugShowCheckedModeBanner: false,
-        home: SplashScreen(),
+        home: const SplashScreen(),
       ),
     );
   }

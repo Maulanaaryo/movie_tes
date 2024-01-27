@@ -11,7 +11,7 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
     on<GetNowPlayingEvent>((event, emit) async {
       emit(NowPlayingLoading());
 
-      final result = await HomeDataSource().getNowPlaying();
+      final result = await MovieDataSource().getNowPlaying();
       result.fold(
         (error) => emit(NowPlayingError(message: error.toString())),
         (success) => emit(NowPlayingLoaded(movie: success)),

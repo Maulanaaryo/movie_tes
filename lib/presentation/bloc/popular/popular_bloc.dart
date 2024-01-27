@@ -11,7 +11,7 @@ class PopularBloc extends Bloc<PopularEvent, PopularState> {
     on<GetPopularEvent>((event, emit) async {
       emit(PopularLoading());
 
-      final result = await HomeDataSource().getPopular();
+      final result = await MovieDataSource().getPopular();
       result.fold(
         (error) => emit(PopularError(message: error)),
         (success) => emit(PopularLoaded(movie: success)),
