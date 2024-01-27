@@ -1,16 +1,12 @@
-# movie_tes
+# Movie
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Menginstal Flutter dan Dart
+2. Menginstal VSCode dan Ekstensi Flutter
+3. Clone Repository dari Github
+- git clone https://github.com/nama-pengguna/repo-flutter.git
+4. Masuk ke Direktori Proyek
+- cd repo-flutter
+5. Menginstal Paket dan Dependensi
+- flutter pub get
+6. Menjalankan Aplikasi di emulator atau Handphone
+- flutter run
