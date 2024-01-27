@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                     final result = state.movie;
                     return MovieList(result);
                   } else {
-                    return const Text('Error Nich');
+                    return const Text('Data not found');
                   }
                 },
               ),
@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                     final result = state.movie;
                     return MovieList(result);
                   } else {
-                    return const Text('Error Nich');
+                    return const Text('Data not found');
                   }
                 },
               ),

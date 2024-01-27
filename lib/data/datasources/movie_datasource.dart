@@ -5,10 +5,9 @@ import 'package:http/http.dart' as http;
 import 'package:movie_tes/data/models/movie_detail_model.dart';
 import 'package:movie_tes/data/models/movie_model.dart';
 
-class MovieDataSource {
-  final String baseUrl = 'https://api.themoviedb.org/3';
-  final String apiKey = 'api_key=2174d146bb9c0eab47529b2e77d6b526';
+import '../../utils/constants.dart';
 
+class MovieDataSource {
   Future<Either<String, List<MovieModel>>> getNowPlaying() async {
     final response =
         await http.get(Uri.parse('$baseUrl/movie/now_playing?$apiKey'));
@@ -71,19 +70,14 @@ class MovieDataSource {
   }
 
   Future<Either<String, MovieDetailModel>> getMovieDetail(int id) async {
-    try {
-      final response = await http.get(Uri.parse('$baseUrl/movie/$id?$apiKey'));
+    final response = await http.get(Uri.parse('$baseUrl/movie/$id?$apiKey'));
 
-      if (response.statusCode == 200) {
-        final movieDetail =
-            MovieDetailModel.fromJson(json.decode(response.body));
-        return right(movieDetail);
-      } else {
-        throw Exception(
-            'Failed to fetch detail movies. Status code: ${response.statusCode}');
-      }
-    } catch (e) {
-      return left('An error occurred: $e');
+    if (response.statusCode == 200) {
+      final movieDetail = MovieDetailModel.fromJson(json.decode(response.body));
+      return right(movieDetail);
+    } else {
+      throw Exception(
+          'Failed to fetch detail movies. Status code: ${response.statusCode}');
     }
   }
 }
